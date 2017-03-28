@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		952503561E82F67C00FB5D68 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 952503531E82F67B00FB5D68 /* Car.cpp */; };
-		952503651E83085500FB5D68 /* testdata50.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 952503581E82F8DE00FB5D68 /* testdata50.txt */; };
 		952503681E83114600FB5D68 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 952503671E83114600FB5D68 /* main.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
@@ -38,7 +37,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				952503651E83085500FB5D68 /* testdata50.txt in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,11 +45,6 @@
 /* Begin PBXFileReference section */
 		952503531E82F67B00FB5D68 /* Car.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Car.cpp; sourceTree = "<group>"; };
 		952503541E82F67B00FB5D68 /* Car.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
-		952503581E82F8DE00FB5D68 /* testdata50.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testdata50.txt; path = Textfile/testdata50.txt; sourceTree = "<group>"; };
-		952503591E82F8DE00FB5D68 /* testdata100.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testdata100.txt; path = Textfile/testdata100.txt; sourceTree = "<group>"; };
-		9525035A1E82F8DE00FB5D68 /* testdata250.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testdata250.txt; path = Textfile/testdata250.txt; sourceTree = "<group>"; };
-		9525035B1E82F8DE00FB5D68 /* testdata500.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testdata500.txt; path = Textfile/testdata500.txt; sourceTree = "<group>"; };
-		9525035C1E82F8DE00FB5D68 /* testdata1000.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testdata1000.txt; path = Textfile/testdata1000.txt; sourceTree = "<group>"; };
 		952503671E83114600FB5D68 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* Insection_SimulatorDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Insection_SimulatorDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,11 +110,6 @@
 				952503531E82F67B00FB5D68 /* Car.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
-				952503581E82F8DE00FB5D68 /* testdata50.txt */,
-				952503591E82F8DE00FB5D68 /* testdata100.txt */,
-				9525035A1E82F8DE00FB5D68 /* testdata250.txt */,
-				9525035B1E82F8DE00FB5D68 /* testdata500.txt */,
-				9525035C1E82F8DE00FB5D68 /* testdata1000.txt */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;

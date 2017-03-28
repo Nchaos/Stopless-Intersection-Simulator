@@ -64,11 +64,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "testdata50.txt"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "Car_Textfile/testdata50.txt"
+            argument = "Textfile/testdata1000.txt"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument

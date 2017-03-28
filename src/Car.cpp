@@ -111,15 +111,45 @@ void Car::setCollision(bool logic)
     collision = logic;
 }
 
+float Car::getCarStart()
+{
+    return carStart;
+}
+
+void Car::setCarStart(float start)
+{
+    carStart = start;
+}
+
+float Car::getCarEnd()
+{
+    return carEnd;
+}
+
+void Car::setCarEnd(float end)
+{
+    carEnd = end;
+}
+
+float Car::getCarCollisionTime()
+{
+    return carCollisionTime;
+}
+
+void Car::setCarCollisionTime(float time)
+{
+    carCollisionTime = time;
+}
+
 void Car::alignCoordinates()
 {
 	if(dir) // north/south 
 	{
-		x_pos = 0.0;
+		x_pos = -5.0;
 	}
 	else // east/west
 	{
-		y_pos = 0.0;
+		y_pos = 5.0;
 	}
 }
 

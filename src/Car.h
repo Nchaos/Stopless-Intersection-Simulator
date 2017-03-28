@@ -30,6 +30,12 @@ public:
     void setDanger(bool logic);
     bool getCollision();
     void setCollision(bool logic);
+    float getCarStart();
+    void setCarStart(float);
+    float getCarEnd();
+    void setCarEnd(float);
+    float getCarCollisionTime();
+    void setCarCollisionTime(float);
 
 	void print();
 	void alignCoordinates();
@@ -47,6 +53,9 @@ private:
     float blue = 255;
     bool danger = false;
     bool collision = false;
+    float carStart = 0.0;
+    float carEnd = 0.0;
+    float carCollisionTime = 0.0;
 
 
 

@@ -12,6 +12,7 @@ class ofApp : public ofBaseApp{
         string filename;
         vector<int> hori;
         vector<int> vert;
+        int collisions = 0;
     
     
 	public:
@@ -36,5 +37,7 @@ class ofApp : public ofBaseApp{
         void readDataFile();
         void printData();
         void alignCars();
+        void checkForSouthEastCollisions();
+        void collision_algorithm();
 		
 };
