@@ -8,13 +8,13 @@
 class ofApp : public ofBaseApp{
     
     private:
-        vector<Car*> list;
+        vector<Car*> list; // Master List of Cars
         string filename;
         vector<int> hori;
         vector<int> vert;
     
-        vector<Car*> horizonal;
-        vector<Car*> vertical;
+        vector<Car*> horizonal; // Cars in the horizontal danger zone
+        vector<Car*> vertical; // Cars in the vertical danger zone
         int collisions = 0;
     
     

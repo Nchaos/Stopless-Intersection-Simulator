@@ -27,7 +27,8 @@ void ofApp::update(){
                     if(!list.at(i)->getDanger())
                     {
                         list.at(i)->setDanger(true);
-                        vert.push_back(i);
+                        vert.push_back(i);          // Delete this later
+                        vertical.push_back(list.at(i));
                         list.at(i)->setColor(255, 0, 0);
                     }
                 }
@@ -43,7 +44,8 @@ void ofApp::update(){
                     if(!list.at(i)->getDanger())
                     {
                         list.at(i)->setDanger(true);
-                        hori.push_back(i);
+                        hori.push_back(i);          // Delete this later
+                        horizonal.push_back(list.at(i));
                         list.at(i)->setColor(255, 0, 0);
                     }
                 }
@@ -57,8 +59,8 @@ void ofApp::update(){
 void ofApp::draw(){
     ofTranslate(400, 400);
     
-    int vertSize = vert.size();
-    int horiSize = hori.size();
+    int vertSize = vertical.size();
+    int horiSize = horizonal.size();
     
     
     // List Trackers
@@ -226,71 +228,61 @@ void ofApp::alignCars()
 //--------------------------------------------------------------
 void ofApp::checkForSouthEastCollisions()
 {
-    for(int i = 0; i < list.size(); i++)
+    for (int i = 0; i < vertical.size(); i++)   // North/South
     {
-        if(list.at(i)->getDanger())
+        if((vertical.at(i)->getYPos() <= -50.0) || (vertical.at(i)->getYPos() >= 50.0))
         {
-            if(list.at(i)->getDir()) // north/south
+            if(!vertical.at(i)->getCollision())
             {
-                if((list.at(i)->getYPos() <= -50.0) || (list.at(i)->getYPos() >= 50.0))
+                vertical.at(i)->setColor(0, 255, 0);
+            }
+            // Remove from Vertical List and from danger zone
+            vertical.at(i)->setDanger(false);
+            vertical.erase(vertical.begin() + i);
+            
+        }
+        else if((vertical.at(i)->getYPos() >= 0.0) && (vertical.at(i)->getYPos() <= 10.0)) // checks for collisions
+        {
+            for(int j = 0; j < horizonal.size(); j++)
+            {
+                if((horizonal.at(j)->getXPos() >= -10.0) && horizonal.at(j)->getXPos() <= 0.0 )
                 {
-                    list.at(i)->setDanger(false);
-                    for(int c = 0; c < vert.size(); c++)
+                    // Collision
+                    if(!horizonal.at(j)->getCollision())
                     {
-                        if (vert.at(c) == i)
-                            vert.erase(vert.begin() + c);
-                    }
-                    if(!list.at(i)->getCollision())
-                    {
-                        list.at(i)->setColor(0, 255, 0);
-                    }
-                }
-                else if((list.at(i)->getYPos() >= 0.0) && (list.at(i)->getYPos() <= 10.0)) // checks for collisions
-                {
-                    for (int c = 0; c < hori.size(); c++)
-                    {
-                        if((list.at(hori.at(c))->getXPos() >= -10.0) && (list.at(hori.at(c))->getXPos() <= 0.0))
-                        {
-                            //cout << "collision" << endl;
-                            if(!list.at(hori.at(c))->getCollision())
-                            {
-                                list.at(hori.at(c))->setCollision(true);
-                                list.at(hori.at(c))->setColor(0, 0, 255);
-                                collisions++;
-                            }
-                        }
+                        horizonal.at(j)->setCollision(true);
+                        horizonal.at(j)->setColor(0, 0, 255);
+                        collisions++;
                     }
                 }
             }
-            else // east/west
+        }
+    }
+    for (int i = 0; i < horizonal.size(); i++)
+    {
+        if((horizonal.at(i)->getXPos() <= -50.0) || (horizonal.at(i)->getXPos() >= 50.0))
+        {
+            if(!horizonal.at(i)->getCollision())
             {
-                if((list.at(i)->getXPos() <= -50.0) || (list.at(i)->getXPos() >= 50.0))
+                horizonal.at(i)->setColor(0, 255, 0);
+            }
+            // Remove from Horizonal List and from danger zone
+            horizonal.at(i)->setDanger(false);
+            horizonal.erase(horizonal.begin() + i);
+            
+        }
+        else if((horizonal.at(i)->getXPos() >= -10.0) && (horizonal.at(i)->getXPos() <= 0.0)) // checks for collisions
+        {
+            for(int j = 0; j < vertical.size(); j++)
+            {
+                if((vertical.at(j)->getYPos() >= 0.0) && (vertical.at(j)->getYPos() <= 10.0))
                 {
-                    list.at(i)->setDanger(false);
-                    for(int c = 0; c < hori.size(); c++)
+                    // Collision
+                    if(!vertical.at(j)->getCollision())
                     {
-                        if (hori.at(c) == i)
-                            hori.erase(hori.begin() + c);
-                    }
-                    if(!list.at(i)->getCollision())
-                    {
-                        list.at(i)->setColor(0, 255, 0);
-                    }
-                }
-                else if((list.at(i)->getXPos() >= -10.0) && (list.at(i)->getXPos() <= 0.0)) // checks for collisions
-                {
-                    for (int c = 0; c < vert.size(); c++)
-                    {
-                        if((list.at(vert.at(c))->getYPos() >= 0.0) && (list.at(vert.at(c))->getYPos() <= 10.0))
-                        {
-                            //cout << "collision" << endl;
-                            if(!list.at(vert.at(c))->getCollision())
-                            {
-                                list.at(vert.at(c))->setCollision(true);
-                                list.at(vert.at(c))->setColor(0, 0, 255);
-                                collisions++;
-                            }
-                        }
+                        vertical.at(j)->setCollision(true);
+                        vertical.at(j)->setColor(0, 0, 255);
+                        collisions++;
                     }
                 }
             }
