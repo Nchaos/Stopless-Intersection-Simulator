@@ -17,34 +17,34 @@ void ofApp::update(){
     // Updates the position of all cars
     for(int i = 0; i < list.size(); i++)
     {
-        if(list.at(i).getDir()) // north/south
+        if(list.at(i)->getDir()) // north/south
         {
-            list.at(i).setYPos(list.at(i).getYPos() + list.at(i).getSpeed());
-            if((list.at(i).getYPos() >= -50.0) && (list.at(i).getYPos() <= 50.0))
+            list.at(i)->setYPos(list.at(i)->getYPos() + list.at(i)->getSpeed());
+            if((list.at(i)->getYPos() >= -50.0) && (list.at(i)->getYPos() <= 50.0))
             {
-                if(!list.at(i).getCollision())
+                if(!list.at(i)->getCollision())
                 {
-                    if(!list.at(i).getDanger())
+                    if(!list.at(i)->getDanger())
                     {
-                        list.at(i).setDanger(true);
+                        list.at(i)->setDanger(true);
                         vert.push_back(i);
-                        list.at(i).setColor(255, 0, 0);
+                        list.at(i)->setColor(255, 0, 0);
                     }
                 }
             }
         }
         else // east/west
         {
-            list.at(i).setXPos(list.at(i).getXPos() + list.at(i).getSpeed());
-            if((list.at(i).getXPos() >= -50.0) && (list.at(i).getXPos() <= 50.0))
+            list.at(i)->setXPos(list.at(i)->getXPos() + list.at(i)->getSpeed());
+            if((list.at(i)->getXPos() >= -50.0) && (list.at(i)->getXPos() <= 50.0))
             {
-                if(!list.at(i).getCollision())
+                if(!list.at(i)->getCollision())
                 {
-                    if(!list.at(i).getDanger())
+                    if(!list.at(i)->getDanger())
                     {
-                        list.at(i).setDanger(true);
+                        list.at(i)->setDanger(true);
                         hori.push_back(i);
-                        list.at(i).setColor(255, 0, 0);
+                        list.at(i)->setColor(255, 0, 0);
                     }
                 }
             }
@@ -86,11 +86,11 @@ void ofApp::draw(){
     
     for(int i = 0; i < list.size(); i++)
     {
-        float locx = list.at(i).getXPos();
-        float locy = list.at(i).getYPos();
+        float locx = list.at(i)->getXPos();
+        float locy = list.at(i)->getYPos();
         //cout << "Location x: " << locx << endl;
         //cout << "Location y: " << locy << endl;
-        ofSetColor(list.at(i).getRed(), list.at(i).getGreen(), list.at(i).getBlue());
+        ofSetColor(list.at(i)->getRed(), list.at(i)->getGreen(), list.at(i)->getBlue());
         ofDrawCircle(locx, locy, 5.0);
     }
 }
@@ -199,7 +199,7 @@ void ofApp::readDataFile()
          Creating Car object
          Adding it to the list
          */
-        Car newCar(i_id, b_north, f_speed, f_xpos, f_ypos);
+        Car *newCar = new Car(i_id, b_north, f_speed, f_xpos, f_ypos);
         list.push_back(newCar);
         
     }
@@ -211,7 +211,7 @@ void ofApp::printData()
     for (int i = 0; i < list.size(); i++)
     {
         cout << "Car: " << (i+1) << endl;
-        list.at(i).print();
+        list.at(i)->print();
         cout << endl;
     }    
 }
@@ -220,7 +220,7 @@ void ofApp::alignCars()
 {
     for (int i = 0; i < list.size(); i++)
     {
-        list.at(i).alignCoordinates();
+        list.at(i)->alignCoordinates();
     }
 }
 //--------------------------------------------------------------
@@ -228,34 +228,34 @@ void ofApp::checkForSouthEastCollisions()
 {
     for(int i = 0; i < list.size(); i++)
     {
-        if(list.at(i).getDanger())
+        if(list.at(i)->getDanger())
         {
-            if(list.at(i).getDir()) // north/south
+            if(list.at(i)->getDir()) // north/south
             {
-                if((list.at(i).getYPos() <= -50.0) || (list.at(i).getYPos() >= 50.0))
+                if((list.at(i)->getYPos() <= -50.0) || (list.at(i)->getYPos() >= 50.0))
                 {
-                    list.at(i).setDanger(false);
+                    list.at(i)->setDanger(false);
                     for(int c = 0; c < vert.size(); c++)
                     {
                         if (vert.at(c) == i)
                             vert.erase(vert.begin() + c);
                     }
-                    if(!list.at(i).getCollision())
+                    if(!list.at(i)->getCollision())
                     {
-                        list.at(i).setColor(0, 255, 0);
+                        list.at(i)->setColor(0, 255, 0);
                     }
                 }
-                else if((list.at(i).getYPos() >= 0.0) && (list.at(i).getYPos() <= 10.0)) // checks for collisions
+                else if((list.at(i)->getYPos() >= 0.0) && (list.at(i)->getYPos() <= 10.0)) // checks for collisions
                 {
                     for (int c = 0; c < hori.size(); c++)
                     {
-                        if((list.at(hori.at(c)).getXPos() >= -10.0) && (list.at(hori.at(c)).getXPos() <= 0.0))
+                        if((list.at(hori.at(c))->getXPos() >= -10.0) && (list.at(hori.at(c))->getXPos() <= 0.0))
                         {
                             //cout << "collision" << endl;
-                            if(!list.at(hori.at(c)).getCollision())
+                            if(!list.at(hori.at(c))->getCollision())
                             {
-                                list.at(hori.at(c)).setCollision(true);
-                                list.at(hori.at(c)).setColor(0, 0, 255);
+                                list.at(hori.at(c))->setCollision(true);
+                                list.at(hori.at(c))->setColor(0, 0, 255);
                                 collisions++;
                             }
                         }
@@ -264,30 +264,30 @@ void ofApp::checkForSouthEastCollisions()
             }
             else // east/west
             {
-                if((list.at(i).getXPos() <= -50.0) || (list.at(i).getXPos() >= 50.0))
+                if((list.at(i)->getXPos() <= -50.0) || (list.at(i)->getXPos() >= 50.0))
                 {
-                    list.at(i).setDanger(false);
+                    list.at(i)->setDanger(false);
                     for(int c = 0; c < hori.size(); c++)
                     {
                         if (hori.at(c) == i)
                             hori.erase(hori.begin() + c);
                     }
-                    if(!list.at(i).getCollision())
+                    if(!list.at(i)->getCollision())
                     {
-                        list.at(i).setColor(0, 255, 0);
+                        list.at(i)->setColor(0, 255, 0);
                     }
                 }
-                else if((list.at(i).getXPos() >= -10.0) && (list.at(i).getXPos() <= 0.0)) // checks for collisions
+                else if((list.at(i)->getXPos() >= -10.0) && (list.at(i)->getXPos() <= 0.0)) // checks for collisions
                 {
                     for (int c = 0; c < vert.size(); c++)
                     {
-                        if((list.at(vert.at(c)).getYPos() >= 0.0) && (list.at(vert.at(c)).getYPos() <= 10.0))
+                        if((list.at(vert.at(c))->getYPos() >= 0.0) && (list.at(vert.at(c))->getYPos() <= 10.0))
                         {
                             //cout << "collision" << endl;
-                            if(!list.at(vert.at(c)).getCollision())
+                            if(!list.at(vert.at(c))->getCollision())
                             {
-                                list.at(vert.at(c)).setCollision(true);
-                                list.at(vert.at(c)).setColor(0, 0, 255);
+                                list.at(vert.at(c))->setCollision(true);
+                                list.at(vert.at(c))->setColor(0, 0, 255);
                                 collisions++;
                             }
                         }
@@ -301,15 +301,17 @@ void ofApp::checkForSouthEastCollisions()
 //--------------------------------------------------------------
 void ofApp::collision_algorithm()
 {
+    
+    /*
     vector<int> queue;
     vector<Car> timeSort;
     // Go through Vert/Horizonal lists and set collision times
     for (int i = 0; i < vert.size(); i++)
     {
-        list.at(vert.at(i)).setCarStart(fabs((list.at(vert.at(i)).getYPos() - 0.0)/ (list.at(vert.at(i)).getSpeed())));
-        list.at(vert.at(i)).setCarEnd(fabs((list.at(vert.at(i)).getYPos() - 10.0)/ (list.at(vert.at(i)).getSpeed())));
-        list.at(vert.at(i)).setCarCollisionTime(list.at(vert.at(i)).getCarEnd() - list.at(vert.at(i)).getCarStart());
-        timeSort.push_back(list.at(vert.at(i)));
+        list.at(*vert.at(i)).setCarStart(fabs((list.at(*vert.at(i)).getYPos() - 0.0)/ (list.at(*vert.at(i)).getSpeed())));
+        list.at(*vert.at(i)).setCarEnd(fabs((list.at(*vert.at(i)).getYPos() - 10.0)/ (list.at(*vert.at(i)).getSpeed())));
+        list.at(*vert.at(i)).setCarCollisionTime(list.at(*vert.at(i)).getCarEnd() - list.at(*vert.at(i)).getCarStart());
+        timeSort.push_back(list.at(*vert.at(i)));
     }
     for (int i = 0; i < hori.size(); i++)
     {
@@ -356,7 +358,7 @@ void ofApp::collision_algorithm()
     // Organize them in a new list based on FIFO
     // New list is called queue
     
-    
+    */
     
     
 }

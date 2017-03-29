@@ -8,10 +8,13 @@
 class ofApp : public ofBaseApp{
     
     private:
-        vector<Car> list;
+        vector<Car*> list;
         string filename;
         vector<int> hori;
         vector<int> vert;
+    
+        vector<Car*> horizonal;
+        vector<Car*> vertical;
         int collisions = 0;
     
     
