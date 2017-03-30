@@ -12,7 +12,7 @@ void ofApp::update(){
     
     // Checks danger zone cars
     checkForSouthEastCollisions();
-    //collision_algorithm();
+    collision_algorithm();
     
     // Updates the position of all cars
     for(int i = 0; i < list.size(); i++)
@@ -159,7 +159,7 @@ ofApp::ofApp(string datafile){
     filename = datafile;
     readDataFile();
     alignCars();
-    //printData();
+    //printData(list);
 }
 //--------------------------------------------------------------
 void ofApp::readDataFile()
@@ -208,14 +208,24 @@ void ofApp::readDataFile()
 
 }
 //--------------------------------------------------------------
-void ofApp::printData()
+void ofApp::printData(vector<Car*> carList)
 {
-    for (int i = 0; i < list.size(); i++)
+    for (int i = 0; i < carList.size(); i++)
     {
         cout << "Car: " << (i+1) << endl;
-        list.at(i)->print();
+        carList.at(i)->print();
         cout << endl;
     }    
+}
+//--------------------------------------------------------------
+void ofApp::printTimeData(vector<Car*> carList)
+{
+    for (int i = 0; i < carList.size(); i++)
+    {
+        cout << "Car: " << (i+1) << endl;
+        carList.at(i)->printTime();
+        cout << endl;
+    }
 }
 //--------------------------------------------------------------
 void ofApp::alignCars()
@@ -293,65 +303,48 @@ void ofApp::checkForSouthEastCollisions()
 //--------------------------------------------------------------
 void ofApp::collision_algorithm()
 {
-    
-    /*
-    vector<int> queue;
-    vector<Car> timeSort;
+    vector<Car*> timeSort;
     // Go through Vert/Horizonal lists and set collision times
-    for (int i = 0; i < vert.size(); i++)
+    // Add them to a timeSort list
+    for (int i = 0; i < vertical.size(); i++)
     {
-        list.at(*vert.at(i)).setCarStart(fabs((list.at(*vert.at(i)).getYPos() - 0.0)/ (list.at(*vert.at(i)).getSpeed())));
-        list.at(*vert.at(i)).setCarEnd(fabs((list.at(*vert.at(i)).getYPos() - 10.0)/ (list.at(*vert.at(i)).getSpeed())));
-        list.at(*vert.at(i)).setCarCollisionTime(list.at(*vert.at(i)).getCarEnd() - list.at(*vert.at(i)).getCarStart());
-        timeSort.push_back(list.at(*vert.at(i)));
+        vertical.at(i)->setCarStart(fabs((vertical.at(i)->getYPos() - 0.0) / vertical.at(i)->getSpeed()));
+        vertical.at(i)->setCarEnd(fabs((vertical.at(i)->getYPos() - 10.0) / vertical.at(i)->getSpeed()));
+        vertical.at(i)->setCarCollisionTime(vertical.at(i)->getCarEnd() - vertical.at(i)->getCarStart());
+        timeSort.push_back(vertical.at(i));
     }
-    for (int i = 0; i < hori.size(); i++)
+    for (int i = 0; i < horizonal.size(); i++)
     {
-        list.at(hori.at(i)).setCarStart(fabs((list.at(hori.at(i)).getYPos() - 0.0)/ (list.at(hori.at(i)).getSpeed())));
-        list.at(hori.at(i)).setCarEnd(fabs((list.at(hori.at(i)).getYPos() - 10.0)/ (list.at(hori.at(i)).getSpeed())));
-        list.at(hori.at(i)).setCarCollisionTime(list.at(hori.at(i)).getCarEnd() - list.at(hori.at(i)).getCarStart());
-        timeSort.push_back(list.at(hori.at(i)));
-    }
-    
-    // Sort Cars based on FIFO
-    if (!timeSort.empty()) // only sort if not empty
-    {
-        std::vector<Car>::iterator it;
-        for (int i = 0; i < timeSort.size(); i++)
-        {
-            it = timeSort.begin();
-            int low = i;
-            
-            for (int j = 1+i; j < timeSort.size(); i++)
-            {
-                if (timeSort.at(j).getCarStart() < timeSort.at(i).getCarStart())
-                {
-                    //int temp = i;
-                    //timeSort.insert()
-                    //timeSort.at(i).getCarStart();
-                    //low = j;
-                    
-                }
-            }
-        }
+        horizonal.at(i)->setCarStart(fabs((horizonal.at(i)->getYPos() - 0.0) / horizonal.at(i)->getSpeed()));
+        horizonal.at(i)->setCarEnd(fabs((horizonal.at(i)->getYPos() - 10.0) / horizonal.at(i)->getSpeed()));
+        horizonal.at(i)->setCarCollisionTime(horizonal.at(i)->getCarEnd() - horizonal.at(i)->getCarStart());
+        timeSort.push_back(horizonal.at(i));
     }
     
-    
-    //Sorted?
-    for(int i = 0; i < timeSort.size(); i++)
-    {
-        cout << "Starting................" << endl;
-        timeSort.at(i).print();
-        cout << "Ending.................." << endl;
-    }
-    
-    // find time until enter collision zone
-    // find time until leave collision zone
-    // Organize them in a new list based on FIFO
-    // New list is called queue
-    
-    */
+    // Sort Cars by FIFO
+    sortFIFO(timeSort);
+    //printData(timeSort);
+    //printTimeData(timeSort);
     
     
 }
 //--------------------------------------------------------------
+void ofApp::sortFIFO(vector<Car*>& timeSort)
+{
+    if(!timeSort.empty()) // only sort if not empty
+    {
+        for (int i = 0; i < timeSort.size(); i++)
+        {
+            for (int j = 0; j < timeSort.size() - 1; j++)
+            {
+                if ( timeSort.at(j)->getCarStart() < timeSort.at(j+1)->getCarStart())
+                {
+                    Car *swap = timeSort.at(j);
+                    (timeSort.at(j)) = (timeSort.at(j+1));
+                    (timeSort.at(j+1)) = swap;
+                }
+            }
+        }
+    }
+
+}

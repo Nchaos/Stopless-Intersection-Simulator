@@ -162,4 +162,11 @@ void Car::print()
 	cout << "Speed: \t" << speed << endl;
 }
 
+void Car::printTime()
+{
+    cout << "id: \t\t" << id << endl;
+    cout << "Start Time: \t" << carStart << endl;
+    cout << "End Time: \t" << carEnd << endl;
+    cout << "Collision Time: \t" << carCollisionTime << endl;
+}
 

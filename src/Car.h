@@ -38,7 +38,9 @@ public:
     void setCarCollisionTime(float);
 
 	void print();
+    void printTime();
 	void alignCoordinates();
+    
     
 
 private:
@@ -60,6 +62,7 @@ private:
 
 
 };
+
 
 
 #endif

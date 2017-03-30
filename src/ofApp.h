@@ -4,6 +4,7 @@
 #include "Car.h"
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 class ofApp : public ofBaseApp{
     
@@ -38,9 +39,18 @@ class ofApp : public ofBaseApp{
         ofApp(string filename);
     
         void readDataFile();
-        void printData();
+        void printData(vector<Car*>);
+        void printTimeData(vector<Car*>);
         void alignCars();
         void checkForSouthEastCollisions();
         void collision_algorithm();
+        void sortFIFO(vector<Car*>&);
+    
+
 		
 };
+
+//bool compareCarStartTimes(Car* a, Car* b)
+//{
+//    return (a->getCarStart() < b->getCarStart());
+//}
