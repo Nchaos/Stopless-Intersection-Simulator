@@ -311,20 +311,38 @@ void ofApp::collision_algorithm()
         vertical.at(i)->setCarStart(fabs((vertical.at(i)->getYPos() - 0.0) / vertical.at(i)->getSpeed()));
         vertical.at(i)->setCarEnd(fabs((vertical.at(i)->getYPos() - 10.0) / vertical.at(i)->getSpeed()));
         vertical.at(i)->setCarCollisionTime(vertical.at(i)->getCarEnd() - vertical.at(i)->getCarStart());
-        timeSort.push_back(vertical.at(i));
+        if(vertical.at(i)->getCarCollisionTime() > 0.0)
+        {
+            timeSort.push_back(vertical.at(i));
+        }
     }
     for (int i = 0; i < horizonal.size(); i++)
     {
-        horizonal.at(i)->setCarStart(fabs((horizonal.at(i)->getYPos() - 0.0) / horizonal.at(i)->getSpeed()));
-        horizonal.at(i)->setCarEnd(fabs((horizonal.at(i)->getYPos() - 10.0) / horizonal.at(i)->getSpeed()));
+        horizonal.at(i)->setCarStart(fabs((horizonal.at(i)->getXPos() - 0.0) / horizonal.at(i)->getSpeed()));
+        horizonal.at(i)->setCarEnd(fabs((horizonal.at(i)->getXPos() - 10.0) / horizonal.at(i)->getSpeed()));
         horizonal.at(i)->setCarCollisionTime(horizonal.at(i)->getCarEnd() - horizonal.at(i)->getCarStart());
-        timeSort.push_back(horizonal.at(i));
+        if(horizonal.at(i)->getCarCollisionTime() > 0.0)
+        {
+            timeSort.push_back(horizonal.at(i));
+        }
     }
     
     // Sort Cars by FIFO
     sortFIFO(timeSort);
     //printData(timeSort);
-    //printTimeData(timeSort);
+    printTimeData(timeSort);
+    
+    // Go through timeSort vector
+    // Start with first Car
+    // figure out which direction the car is going/ which cars could conflict
+    // go through the rest of the vector, if they are in a conflicting direction check for possible collision
+    // Possible collision involves if the second car's start time is less than the first cars end time
+    // if no, do nothing
+    // if yes, speed up car 1, slow down car 2
+    
+    
+    
+    
     
     
 }
@@ -337,7 +355,7 @@ void ofApp::sortFIFO(vector<Car*>& timeSort)
         {
             for (int j = 0; j < timeSort.size() - 1; j++)
             {
-                if ( timeSort.at(j)->getCarStart() < timeSort.at(j+1)->getCarStart())
+                if ( timeSort.at(j)->getCarStart() > timeSort.at(j+1)->getCarStart())
                 {
                     Car *swap = timeSort.at(j);
                     (timeSort.at(j)) = (timeSort.at(j+1));
