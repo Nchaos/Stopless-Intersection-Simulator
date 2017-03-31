@@ -340,6 +340,36 @@ void ofApp::collision_algorithm()
     // if no, do nothing
     // if yes, speed up car 1, slow down car 2
     
+    bool direction; // Find priority
+    if(timeSort.size() != 0)
+    {
+        direction = timeSort.at(0)->getDir();
+    }
+    
+    
+    
+    
+    for (int i = 1; i < timeSort.size(); i++)
+    {
+        float carEnd = timeSort.at(0)->getCarEnd();
+        if(direction != timeSort.at(i)->getDir())
+        {
+            //Conflict Cars
+            float carStart = timeSort.at(i)->getCarStart();
+            if(carStart < carEnd)
+            {
+                // Conflict!!!
+                //timeSort.at(0)->setSpeed(timeSort.at(0)->getSpeed()+ 0.01); //Speed up first car
+                //timeSort.at(i)->setSpeed(timeSort.at(i)->getSpeed()- 0.01); //Slow down second car
+                float timeDiff = carEnd - carStart;
+                timeSort.at(0)->setSpeed(timeSort.at(0)->getSpeed() + (timeDiff/200));
+                timeSort.at(i)->setSpeed(timeSort.at(i)->getSpeed() - (timeDiff/200));
+                
+                
+            }
+        }
+    }
+    
     
     
     
