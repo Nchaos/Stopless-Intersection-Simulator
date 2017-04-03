@@ -188,7 +188,7 @@ void ofApp::readDataFile()
         //cout << "ID: " << s_id << " Speed: " << s_speed << endl;
         
         int i_id = stoi(s_id);
-        float f_speed = (stof(s_speed)/100.0);
+        float f_speed = (stof(s_speed)/100);
         float f_xpos = stof(s_xpos);
         float f_ypos = stof(s_ypos);
         bool b_north;
@@ -311,6 +311,7 @@ void ofApp::collision_algorithm()
         vertical.at(i)->setCarStart(fabs((vertical.at(i)->getYPos() - 0.0) / vertical.at(i)->getSpeed()));
         vertical.at(i)->setCarEnd(fabs((vertical.at(i)->getYPos() - 10.0) / vertical.at(i)->getSpeed()));
         vertical.at(i)->setCarCollisionTime(vertical.at(i)->getCarEnd() - vertical.at(i)->getCarStart());
+        vertical.at(i)->setCarDistance(fabs(vertical.at(i)->getYPos() - 10.0));
         if(vertical.at(i)->getCarCollisionTime() > 0.0)
         {
             timeSort.push_back(vertical.at(i));
@@ -321,6 +322,7 @@ void ofApp::collision_algorithm()
         horizonal.at(i)->setCarStart(fabs((horizonal.at(i)->getXPos() - 0.0) / horizonal.at(i)->getSpeed()));
         horizonal.at(i)->setCarEnd(fabs((horizonal.at(i)->getXPos() - 10.0) / horizonal.at(i)->getSpeed()));
         horizonal.at(i)->setCarCollisionTime(horizonal.at(i)->getCarEnd() - horizonal.at(i)->getCarStart());
+        horizonal.at(i)->setCarDistance(fabs(horizonal.at(i)->getXPos() - 10.0));
         if(horizonal.at(i)->getCarCollisionTime() > 0.0)
         {
             timeSort.push_back(horizonal.at(i));
@@ -328,56 +330,58 @@ void ofApp::collision_algorithm()
     }
     
     // Sort Cars by FIFO
-    sortFIFO(timeSort);
+    sortFIFOTime(timeSort);
+    //sortFIFODistance(timeSort);
     //printData(timeSort);
     printTimeData(timeSort);
     
-    // Go through timeSort vector
-    // Start with first Car
-    // figure out which direction the car is going/ which cars could conflict
-    // go through the rest of the vector, if they are in a conflicting direction check for possible collision
-    // Possible collision involves if the second car's start time is less than the first cars end time
-    // if no, do nothing
-    // if yes, speed up car 1, slow down car 2
     
-    bool direction; // Find priority
-    if(timeSort.size() != 0)
+/*
+ The biggest issue is that i prioritize the first car in the list over all cars
+ When there are too many cars in the "danger zone" then there is not enough time for the remaining cars to change veolicity to avoid collisions.
+ 
+ for loop over everycar in the "danger zone". 
+ set first car to speed limit
+ set second car speed as fast to arrive 500ms after the second car
+ 
+ 
+ fucnction for V2V to spread out cars in the same lane
+ */
+    // Setting first car to speed limit
+    
+    for (int i = 0; i < timeSort.size(); i++)
     {
-        direction = timeSort.at(0)->getDir();
-    }
-    
-    
-    
-    
-    for (int i = 1; i < timeSort.size(); i++)
-    {
-        float carEnd = timeSort.at(0)->getCarEnd();
-        if(direction != timeSort.at(i)->getDir())
+        timeSort.at(0)->setSpeed(speed_limit);
+        if(timeSort.at(i)->getDir())
         {
-            //Conflict Cars
-            float carStart = timeSort.at(i)->getCarStart();
-            if(carStart < carEnd)
-            {
-                // Conflict!!!
-                //timeSort.at(0)->setSpeed(timeSort.at(0)->getSpeed()+ 0.01); //Speed up first car
-                //timeSort.at(i)->setSpeed(timeSort.at(i)->getSpeed()- 0.01); //Slow down second car
-                float timeDiff = carEnd - carStart;
-                timeSort.at(0)->setSpeed(timeSort.at(0)->getSpeed() + (timeDiff/200));
-                timeSort.at(i)->setSpeed(timeSort.at(i)->getSpeed() - (timeDiff/200));
-                
-                
-            }
+            timeSort.at(i)->setCarStart(fabs((timeSort.at(i)->getYPos() - 0.0) / timeSort.at(i)->getSpeed()));
+            timeSort.at(i)->setCarEnd(fabs((timeSort.at(i)->getYPos() - 10.0) / timeSort.at(i)->getSpeed()));
+            timeSort.at(i)->setCarCollisionTime(timeSort.at(i)->getCarEnd() - timeSort.at(i)->getCarStart());
+            timeSort.at(i)->setCarDistance(fabs(timeSort.at(i)->getYPos() - 10.0));
+        }
+        else
+        {
+            timeSort.at(i)->setCarStart(fabs((timeSort.at(i)->getXPos() - 0.0) / timeSort.at(i)->getSpeed()));
+            timeSort.at(i)->setCarEnd(fabs((timeSort.at(i)->getXPos() - 10.0) / timeSort.at(i)->getSpeed()));
+            timeSort.at(i)->setCarCollisionTime(timeSort.at(i)->getCarEnd() - timeSort.at(i)->getCarStart());
+            timeSort.at(i)->setCarDistance(fabs(timeSort.at(i)->getXPos() - 10.0));
+        }
+        if(i > 0)
+        {
+            float timeBuffer = timeSort.at(i-1)->getCarEnd() + 100;
+            float distance = timeSort.at(i-1)->getCarDistance();
+            float speed = distance/timeBuffer;
+            if(speed < speed_limit)
+                timeSort.at(i)->setSpeed(speed);
         }
     }
     
     
-    
-    
-    
+
     
 }
 //--------------------------------------------------------------
-void ofApp::sortFIFO(vector<Car*>& timeSort)
+void ofApp::sortFIFOTime(vector<Car*>& timeSort)
 {
     if(!timeSort.empty()) // only sort if not empty
     {
@@ -394,5 +398,24 @@ void ofApp::sortFIFO(vector<Car*>& timeSort)
             }
         }
     }
-
+}
+//--------------------------------------------------------------
+void ofApp::sortFIFODistance(vector<Car*>& timeSort)
+{
+    if(!timeSort.empty()) // only sort if not empty
+    {
+        for (int i = 0; i < timeSort.size(); i++)
+        {
+            for (int j = 0; j < timeSort.size() - 1; j++)
+            {
+                if ( timeSort.at(j)->getCarDistance() > timeSort.at(j+1)->getCarDistance())
+                {
+                    Car *swap = timeSort.at(j);
+                    (timeSort.at(j)) = (timeSort.at(j+1));
+                    (timeSort.at(j+1)) = swap;
+                }
+            }
+        }
+    }
+    
 }

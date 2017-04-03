@@ -17,6 +17,7 @@ class ofApp : public ofBaseApp{
         vector<Car*> horizonal; // Cars in the horizontal danger zone
         vector<Car*> vertical; // Cars in the vertical danger zone
         int collisions = 0;
+        float speed_limit = 0.4;
     
     
 	public:
@@ -44,7 +45,8 @@ class ofApp : public ofBaseApp{
         void alignCars();
         void checkForSouthEastCollisions();
         void collision_algorithm();
-        void sortFIFO(vector<Car*>&);
+        void sortFIFOTime(vector<Car*>&);
+        void sortFIFODistance(vector<Car*>&);
     
 
 		

@@ -36,6 +36,8 @@ public:
     void setCarEnd(float);
     float getCarCollisionTime();
     void setCarCollisionTime(float);
+    float getCarDistance();
+    void setCarDistance(float);
 
 	void print();
     void printTime();
@@ -58,6 +60,7 @@ private:
     float carStart = 0.0;
     float carEnd = 0.0;
     float carCollisionTime = 0.0;
+    float carDistance;
 
 
 
