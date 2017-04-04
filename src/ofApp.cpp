@@ -330,25 +330,12 @@ void ofApp::collision_algorithm()
     }
     
     // Sort Cars by FIFO
-    sortFIFOTime(timeSort);
-    //sortFIFODistance(timeSort);
+    //sortFIFOTime(timeSort);
+    sortFIFODistance(timeSort);
     //printData(timeSort);
     printTimeData(timeSort);
     
-    
-/*
- The biggest issue is that i prioritize the first car in the list over all cars
- When there are too many cars in the "danger zone" then there is not enough time for the remaining cars to change veolicity to avoid collisions.
- 
- for loop over everycar in the "danger zone". 
- set first car to speed limit
- set second car speed as fast to arrive 500ms after the second car
- 
- 
- fucnction for V2V to spread out cars in the same lane
- */
-    // Setting first car to speed limit
-    
+
     for (int i = 0; i < timeSort.size(); i++)
     {
         timeSort.at(0)->setSpeed(speed_limit);
@@ -368,7 +355,7 @@ void ofApp::collision_algorithm()
         }
         if(i > 0)
         {
-            float timeBuffer = timeSort.at(i-1)->getCarEnd() + 100;
+            float timeBuffer = timeSort.at(i-1)->getCarEnd() + 75.0;
             float distance = timeSort.at(i-1)->getCarDistance();
             float speed = distance/timeBuffer;
             if(speed < speed_limit)
