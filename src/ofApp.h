@@ -17,7 +17,7 @@ class ofApp : public ofBaseApp{
         vector<Car*> horizonal; // Cars in the horizontal danger zone
         vector<Car*> vertical; // Cars in the vertical danger zone
         int collisions = 0;
-        float speed_limit = 0.4;
+        float speed_limit = 13.4; // 30mph = 13.4 m/s
     
     
 	public:

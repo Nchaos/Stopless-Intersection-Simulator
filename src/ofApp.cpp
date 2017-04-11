@@ -82,7 +82,7 @@ void ofApp::draw(){
     
     // Danger Zone
     ofNoFill();
-    ofDrawRectangle(-50,-50,100,100);
+    ofDrawRectangle(-100,-100,200,200);
     ofFill();
     
     
@@ -188,7 +188,7 @@ void ofApp::readDataFile()
         //cout << "ID: " << s_id << " Speed: " << s_speed << endl;
         
         int i_id = stoi(s_id);
-        float f_speed = (stof(s_speed)/100);
+        float f_speed = (stof(s_speed));
         float f_xpos = stof(s_xpos);
         float f_ypos = stof(s_ypos);
         bool b_north;
@@ -240,7 +240,7 @@ void ofApp::checkForSouthEastCollisions()
 {
     for (int i = 0; i < vertical.size(); i++)   // North/South
     {
-        if((vertical.at(i)->getYPos() <= -50.0) || (vertical.at(i)->getYPos() >= 50.0))
+        if((vertical.at(i)->getYPos() <= -100.0) || (vertical.at(i)->getYPos() >= 100.0))
         {
             if(!vertical.at(i)->getCollision())
             {
@@ -270,7 +270,7 @@ void ofApp::checkForSouthEastCollisions()
     }
     for (int i = 0; i < horizonal.size(); i++)
     {
-        if((horizonal.at(i)->getXPos() <= -50.0) || (horizonal.at(i)->getXPos() >= 50.0))
+        if((horizonal.at(i)->getXPos() <= -100.0) || (horizonal.at(i)->getXPos() >= 100.0))
         {
             if(!horizonal.at(i)->getCollision())
             {
@@ -355,11 +355,16 @@ void ofApp::collision_algorithm()
         }
         if(i > 0)
         {
-            float timeBuffer = timeSort.at(i-1)->getCarEnd() + 75.0;
+            float timeBuffer = timeSort.at(i-1)->getCarEnd() - 5.0;
             float distance = timeSort.at(i-1)->getCarDistance();
             float speed = distance/timeBuffer;
             if(speed < speed_limit)
                 timeSort.at(i)->setSpeed(speed);
+//            float timebuf = timeSort.at(i)->getCarEnd() - timeSort.at(i-1)->getCarEnd();
+//            if(timebuf < 75) {
+//                float speed = timeSort.at(i-1)->getCarDistance()/(timeSort.at(i-1)->getCarEnd()+75);
+//                timeSort.at(i)->setSpeed(speed);
+//            }
         }
     }
     
