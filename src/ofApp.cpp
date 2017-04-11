@@ -91,8 +91,6 @@ void ofApp::draw(){
     {
         float locx = list.at(i)->getXPos();
         float locy = list.at(i)->getYPos();
-        //cout << "Location x: " << locx << endl;
-        //cout << "Location y: " << locy << endl;
         ofSetColor(list.at(i)->getRed(), list.at(i)->getGreen(), list.at(i)->getBlue());
         ofDrawCircle(locx, locy, 5.0);
     }
@@ -104,7 +102,6 @@ void ofApp::keyPressed(int key){
     {
         pause = !pause;
     }
-
 }
 
 //--------------------------------------------------------------
@@ -274,7 +271,7 @@ void ofApp::checkForSouthEastCollisions()
     }
     for (int i = 0; i < horizonal.size(); i++)
     {
-        if((horizonal.at(i)->getXPos() <= -300.0) || (horizonal.at(i)->getXPos() >= 300.0))
+        if((horizonal.at(i)->getXPos() <= -100.0) || (horizonal.at(i)->getXPos() >= 100.0))
         {
             if(!horizonal.at(i)->getCollision())
             {
@@ -337,7 +334,7 @@ void ofApp::collision_algorithm()
     //sortFIFOTime(timeSort);
     sortFIFODistance(timeSort);
     //printData(timeSort);
-    printTimeData(timeSort);
+    //printTimeData(timeSort);
     
 
     for (int i = 0; i < timeSort.size(); i++)
@@ -359,7 +356,7 @@ void ofApp::collision_algorithm()
         }
         if(i > 0)
         {
-            float timeBuffer = timeSort.at(i-1)->getCarEnd() + 25.0;
+            float timeBuffer = timeSort.at(i-1)->getCarEnd() + 20.0;
             float distance = timeSort.at(i-1)->getCarDistance();
             float speed = distance/timeBuffer;
             if(speed < speed_limit)
