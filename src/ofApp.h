@@ -11,13 +11,13 @@ class ofApp : public ofBaseApp{
     private:
         vector<Car*> list; // Master List of Cars
         string filename;
-        vector<int> hori;
-        vector<int> vert;
     
         vector<Car*> horizonal; // Cars in the horizontal danger zone
         vector<Car*> vertical; // Cars in the vertical danger zone
         int collisions = 0;
-        float speed_limit = 13.4; // 30mph = 13.4 m/s
+        float speed_limit = 1.34; // 30mph = 13.4 m/s
+        int number_cars = 0;
+        bool pause = false;
     
     
 	public:

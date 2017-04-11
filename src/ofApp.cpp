@@ -9,50 +9,50 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    if(!pause){
+        // Checks danger zone cars
+        checkForSouthEastCollisions();
+        collision_algorithm();
     
-    // Checks danger zone cars
-    checkForSouthEastCollisions();
-    collision_algorithm();
-    
-    // Updates the position of all cars
-    for(int i = 0; i < list.size(); i++)
-    {
-        if(list.at(i)->getDir()) // north/south
+        // Updates the position of all cars
+        for(int i = 0; i < list.size(); i++)
         {
-            list.at(i)->setYPos(list.at(i)->getYPos() + list.at(i)->getSpeed());
-            if((list.at(i)->getYPos() >= -50.0) && (list.at(i)->getYPos() <= 50.0))
+            if(list.at(i)->getDir()) // north/south
             {
-                if(!list.at(i)->getCollision())
+                list.at(i)->setYPos(list.at(i)->getYPos() + list.at(i)->getSpeed());
+                if((list.at(i)->getYPos() >= -100.0) && (list.at(i)->getYPos() <= 100.0))
                 {
-                    if(!list.at(i)->getDanger())
+                    if(!list.at(i)->getCollision())
                     {
-                        list.at(i)->setDanger(true);
-                        vert.push_back(i);          // Delete this later
-                        vertical.push_back(list.at(i));
-                        list.at(i)->setColor(255, 0, 0);
+                        if(!list.at(i)->getDanger())
+                        {
+                            number_cars++;
+                            list.at(i)->setDanger(true);
+                            vertical.push_back(list.at(i));
+                            list.at(i)->setColor(255, 0, 0);
+                        }
                     }
                 }
             }
-        }
-        else // east/west
-        {
-            list.at(i)->setXPos(list.at(i)->getXPos() + list.at(i)->getSpeed());
-            if((list.at(i)->getXPos() >= -50.0) && (list.at(i)->getXPos() <= 50.0))
+            else // east/west
             {
-                if(!list.at(i)->getCollision())
+                list.at(i)->setXPos(list.at(i)->getXPos() + list.at(i)->getSpeed());
+                if((list.at(i)->getXPos() >= -100.0) && (list.at(i)->getXPos() <= 100.0))
                 {
-                    if(!list.at(i)->getDanger())
+                    if(!list.at(i)->getCollision())
                     {
-                        list.at(i)->setDanger(true);
-                        hori.push_back(i);          // Delete this later
-                        horizonal.push_back(list.at(i));
-                        list.at(i)->setColor(255, 0, 0);
+                        if(!list.at(i)->getDanger())
+                        {
+                            number_cars++;
+                            list.at(i)->setDanger(true);
+                            horizonal.push_back(list.at(i));
+                            list.at(i)->setColor(255, 0, 0);
+                        }
                     }
                 }
             }
         }
     }
-
 }
 
 //--------------------------------------------------------------
@@ -68,6 +68,7 @@ void ofApp::draw(){
     ofDrawBitmapString("Vertical Cars in Traffic Zone: \t\t" + ofToString(vertSize), -375, -380);
     ofDrawBitmapString("Horizontal Cars in Traffic Zone: \t" + ofToString(horiSize), -375, -370);
     ofDrawBitmapString("Cars in Collisions: \t\t\t" + ofToString(collisions), -375, -360);
+    ofDrawBitmapString("Car Count: \t\t\t\t" + ofToString(number_cars), -375, -350);
     
     // Intersection lines
     ofSetColor(255, 255, 255);
@@ -99,12 +100,15 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    if(key == ' ')
+    {
+        pause = !pause;
+    }
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
 }
 
 //--------------------------------------------------------------
@@ -188,7 +192,7 @@ void ofApp::readDataFile()
         //cout << "ID: " << s_id << " Speed: " << s_speed << endl;
         
         int i_id = stoi(s_id);
-        float f_speed = (stof(s_speed));
+        float f_speed = (stof(s_speed)/10.0);
         float f_xpos = stof(s_xpos);
         float f_ypos = stof(s_ypos);
         bool b_north;
@@ -270,7 +274,7 @@ void ofApp::checkForSouthEastCollisions()
     }
     for (int i = 0; i < horizonal.size(); i++)
     {
-        if((horizonal.at(i)->getXPos() <= -100.0) || (horizonal.at(i)->getXPos() >= 100.0))
+        if((horizonal.at(i)->getXPos() <= -300.0) || (horizonal.at(i)->getXPos() >= 300.0))
         {
             if(!horizonal.at(i)->getCollision())
             {
@@ -355,16 +359,11 @@ void ofApp::collision_algorithm()
         }
         if(i > 0)
         {
-            float timeBuffer = timeSort.at(i-1)->getCarEnd() - 5.0;
+            float timeBuffer = timeSort.at(i-1)->getCarEnd() + 25.0;
             float distance = timeSort.at(i-1)->getCarDistance();
             float speed = distance/timeBuffer;
             if(speed < speed_limit)
                 timeSort.at(i)->setSpeed(speed);
-//            float timebuf = timeSort.at(i)->getCarEnd() - timeSort.at(i-1)->getCarEnd();
-//            if(timebuf < 75) {
-//                float speed = timeSort.at(i-1)->getCarDistance()/(timeSort.at(i-1)->getCarEnd()+75);
-//                timeSort.at(i)->setSpeed(speed);
-//            }
         }
     }
     
