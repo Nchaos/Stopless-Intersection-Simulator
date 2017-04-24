@@ -51,10 +51,11 @@ class ofApp : public ofBaseApp{
         void alignCars();
         void checkForSouthEastCollisions();
         void collision_algorithm();
-        void sortFIFOTime(vector<Car*>&);
-        void sortFIFODistance(vector<Car*>&);
+        void sortFIFOTime(vector<Car*>&); // V2I
+        void sortFIFODistance(vector<Car*>&); // V2I
         void doNotPass();
-    
+        void sortDistance(vector<Car*>&, bool); // V2V
+        
         void start();
         unsigned long elapsedTime();
         bool isTimeout(unsigned long seconds);

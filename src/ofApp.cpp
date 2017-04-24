@@ -211,6 +211,8 @@ void ofApp::readDataFile()
         else westCars.push_back(newCar);
         
     }
+    sortDistance(northCars, true);
+    sortDistance(westCars, false);
 
 }
 //--------------------------------------------------------------
@@ -403,6 +405,40 @@ void ofApp::sortFIFODistance(vector<Car*>& timeSort)
                     Car *swap = timeSort.at(j);
                     (timeSort.at(j)) = (timeSort.at(j+1));
                     (timeSort.at(j+1)) = swap;
+                }
+            }
+        }
+    }
+}
+//--------------------------------------------------------------
+void ofApp::sortDistance(vector<Car*>& carSort, bool north)
+{
+    if(!carSort.empty()) // only sort if not empty
+    {
+        for (int i = 0; i < carSort.size(); i++)
+        {
+            if(north)
+            {
+                for (int j = 0; j < carSort.size() - 1; j++)
+                {
+                    if ( carSort.at(j)->getYPos() < carSort.at(j+1)->getYPos())
+                    {
+                        Car *swap = carSort.at(j);
+                        (carSort.at(j)) = (carSort.at(j+1));
+                        (carSort.at(j+1)) = swap;
+                    }
+                }
+            }
+            else
+            {
+                for (int j = 0; j < carSort.size() - 1; j++)
+                {
+                    if ( carSort.at(j)->getXPos() < carSort.at(j+1)->getXPos())
+                    {
+                        Car *swap = carSort.at(j);
+                        (carSort.at(j)) = (carSort.at(j+1));
+                        (carSort.at(j+1)) = swap;
+                    }
                 }
             }
         }
