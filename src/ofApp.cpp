@@ -5,6 +5,7 @@ void ofApp::setup(){
     ofTranslate(400, 400);
     ofSetBackgroundColor(0, 0, 0);
     ofSetColor(255, 255, 255);
+    start();
 }
 
 //--------------------------------------------------------------
@@ -53,6 +54,8 @@ void ofApp::update(){
             }
         }
     }
+    
+    
 }
 
 //--------------------------------------------------------------
@@ -69,6 +72,7 @@ void ofApp::draw(){
     ofDrawBitmapString("Horizontal Cars in Traffic Zone: \t" + ofToString(horiSize), -375, -370);
     ofDrawBitmapString("Cars in Collisions: \t\t\t" + ofToString(collisions), -375, -360);
     ofDrawBitmapString("Car Count: \t\t\t\t" + ofToString(number_cars), -375, -350);
+    ofDrawBitmapString("Elapsed Time: \t\t\t\t" + ofToString(elapsedTime()), -375, -340);
     
     // Intersection lines
     ofSetColor(255, 255, 255);
@@ -186,8 +190,6 @@ void ofApp::readDataFile()
         file >> s_ypos;
         file >> s_north;
         
-        //cout << "ID: " << s_id << " Speed: " << s_speed << endl;
-        
         int i_id = stoi(s_id);
         float f_speed = (stof(s_speed)/10.0);
         float f_xpos = stof(s_xpos);
@@ -204,6 +206,9 @@ void ofApp::readDataFile()
          */
         Car *newCar = new Car(i_id, b_north, f_speed, f_xpos, f_ypos);
         list.push_back(newCar);
+        if(b_north) // vertical
+            northCars.push_back(newCar);
+        else westCars.push_back(newCar);
         
     }
 
@@ -364,9 +369,6 @@ void ofApp::collision_algorithm()
         }
     }
     
-    
-
-    
 }
 //--------------------------------------------------------------
 void ofApp::sortFIFOTime(vector<Car*>& timeSort)
@@ -405,5 +407,25 @@ void ofApp::sortFIFODistance(vector<Car*>& timeSort)
             }
         }
     }
-    
+}
+//--------------------------------------------------------------
+void ofApp::doNotPass()
+{
+    // go through vertical cars and horizonal cars
+    // 
+}
+//--------------------------------------------------------------
+void ofApp::start()
+{
+    begTime = (double)clock();
+}
+//--------------------------------------------------------------
+unsigned long ofApp::elapsedTime()
+{
+    return ((double) clock() - begTime) / 10000;// / CLOCKS_PER_SEC;
+}
+//--------------------------------------------------------------
+bool ofApp::isTimeout(unsigned long seconds)
+{
+    return seconds >= elapsedTime();
 }

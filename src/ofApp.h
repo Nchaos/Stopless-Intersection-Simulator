@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <time.h>
 
 class ofApp : public ofBaseApp{
     
@@ -12,12 +13,17 @@ class ofApp : public ofBaseApp{
         vector<Car*> list; // Master List of Cars
         string filename;
     
+        vector<Car*> westCars;
+        vector<Car*> northCars;
+    
         vector<Car*> horizonal; // Cars in the horizontal danger zone
         vector<Car*> vertical; // Cars in the vertical danger zone
         int collisions = 0;
         float speed_limit = 1.34; // 30mph = 13.4 m/s
         int number_cars = 0;
         bool pause = false;
+        double begTime;
+        double seconds = 10.0;
     
     
 	public:
@@ -47,6 +53,11 @@ class ofApp : public ofBaseApp{
         void collision_algorithm();
         void sortFIFOTime(vector<Car*>&);
         void sortFIFODistance(vector<Car*>&);
+        void doNotPass();
+    
+        void start();
+        unsigned long elapsedTime();
+        bool isTimeout(unsigned long seconds);
     
 
 		
