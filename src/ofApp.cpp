@@ -102,10 +102,7 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if(key == ' ')
-    {
-        pause = !pause;
-    }
+    if(key == ' ') pause = !pause;
 }
 
 //--------------------------------------------------------------
@@ -447,8 +444,18 @@ void ofApp::sortDistance(vector<Car*>& carSort, bool north)
 //--------------------------------------------------------------
 void ofApp::doNotPass()
 {
-    // go through vertical cars and horizonal cars
-    // 
+    // go through north cars
+    // if the car behind is less than 10meters distance
+    // then slow down the car behind slightly
+    // if the car behind is 9-11m then set speed the same as car in front
+    
+    
+    
+    
+    //go through west cars
+    // if the car behind is less than 10meters distance
+    // then slow down the car behind slightly
+    // if the car behind is 9-11m then set speed the same as car in front
 }
 //--------------------------------------------------------------
 void ofApp::start()
