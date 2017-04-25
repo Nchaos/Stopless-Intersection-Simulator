@@ -22,8 +22,10 @@ class ofApp : public ofBaseApp{
         float speed_limit = 1.34; // 30mph = 13.4 m/s
         int number_cars = 0;
         bool pause = false;
+        bool stopless_algorithm = true;
         double begTime;
         double seconds = 10.0;
+        ofImage street;
     
     
 	public:

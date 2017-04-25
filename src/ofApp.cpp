@@ -3,8 +3,9 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofTranslate(400, 400);
-    ofSetBackgroundColor(0, 0, 0);
-    ofSetColor(255, 255, 255);
+    //ofSetBackgroundColor(0, 0, 0);
+    street.load("Hillcrest_and_University2.png");
+    //ofSetColor(0, 0, 0);
     start();
 }
 
@@ -13,7 +14,7 @@ void ofApp::update(){
     if(!pause){
         // Checks danger zone cars
         checkForSouthEastCollisions();
-        collision_algorithm();
+        if(stopless_algorithm) collision_algorithm();
     
         // Updates the position of all cars
         for(int i = 0; i < list.size(); i++)
@@ -61,18 +62,28 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofTranslate(400, 400);
+    ofSetColor(255,255,255);
+    street.draw(-400, -400);
     
     int vertSize = vertical.size();
     int horiSize = horizonal.size();
     
     
     // List Trackers
-    ofSetColor(0, 255, 0);
-    ofDrawBitmapString("Vertical Cars in Traffic Zone: \t\t" + ofToString(vertSize), -375, -380);
-    ofDrawBitmapString("Horizontal Cars in Traffic Zone: \t" + ofToString(horiSize), -375, -370);
-    ofDrawBitmapString("Cars in Collisions: \t\t\t" + ofToString(collisions), -375, -360);
-    ofDrawBitmapString("Car Count: \t\t\t\t" + ofToString(number_cars), -375, -350);
-    ofDrawBitmapString("Elapsed Time: \t\t\t\t" + ofToString(elapsedTime()), -375, -340);
+    ofSetColor(0, 0, 0);
+    ofDrawBitmapString("Vertical Cars in Traffic Zone: \t\t" + ofToString(vertSize), -375, -330);
+    ofDrawBitmapString("Horizontal Cars in Traffic Zone: \t" + ofToString(horiSize), -375, -320);
+    ofDrawBitmapString("Cars in Collisions: \t\t\t" + ofToString(collisions), -375, -310);
+    ofDrawBitmapString("Car Count: \t\t\t\t" + ofToString(number_cars), -375, -300);
+    ofDrawBitmapString("Elapsed Time: \t\t\t\t" + ofToString(elapsedTime()), -375, -290);
+    
+    //Toggle Options
+    ofDrawBitmapString("Toggle V2I Algorithm: 'a'", 175, -330);
+    ofDrawBitmapString("Pause: Space Bar", 175, -320);
+    
+    if(stopless_algorithm) ofDrawBitmapString("V2I Algorithm On:", 175, -300);
+    else ofDrawBitmapString("V2I Algorithm Off:", 175, -300);
+
     
     // Intersection lines
     ofSetColor(255, 255, 255);
@@ -103,6 +114,7 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if(key == ' ') pause = !pause;
+    if(key == 'a') stopless_algorithm = !stopless_algorithm;
 }
 
 //--------------------------------------------------------------

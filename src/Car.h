@@ -52,9 +52,9 @@ private:
 	float speed = 0.0;
 	float x_pos = 0.0;
 	float y_pos = 0.0;
-    float red = 255;
-    float green = 255;
-    float blue = 255;
+    float red = 0.0;
+    float green = 0.0;
+    float blue = 0.0;
     bool danger = false;
     bool collision = false;
     float carStart = 0.0;
