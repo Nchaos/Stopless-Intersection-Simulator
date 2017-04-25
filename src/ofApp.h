@@ -23,6 +23,7 @@ class ofApp : public ofBaseApp{
         int number_cars = 0;
         bool pause = false;
         bool stopless_algorithm = true;
+        bool pass = true;
         double begTime;
         double seconds = 10.0;
         ofImage street;

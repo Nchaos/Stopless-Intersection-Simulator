@@ -15,6 +15,7 @@ void ofApp::update(){
         // Checks danger zone cars
         checkForSouthEastCollisions();
         if(stopless_algorithm) collision_algorithm();
+        if(pass) doNotPass();
     
         // Updates the position of all cars
         for(int i = 0; i < list.size(); i++)
@@ -78,11 +79,14 @@ void ofApp::draw(){
     ofDrawBitmapString("Elapsed Time: \t\t\t\t" + ofToString(elapsedTime()), -375, -290);
     
     //Toggle Options
-    ofDrawBitmapString("Toggle V2I Algorithm: 'a'", 175, -330);
-    ofDrawBitmapString("Pause: Space Bar", 175, -320);
+    ofDrawBitmapString("Toggle V2I Algorithm: '1'", 175, -330);
+    ofDrawBitmapString("Toggle V2V Algorithm: '2'", 175, -320);
+    ofDrawBitmapString("Pause: Space Bar", 175, -310);
     
     if(stopless_algorithm) ofDrawBitmapString("V2I Algorithm On:", 175, -300);
     else ofDrawBitmapString("V2I Algorithm Off:", 175, -300);
+    if(pass) ofDrawBitmapString("V2V Algorithm On:", 175, -290);
+    else ofDrawBitmapString("V2V Algorithm Off:", 175, -290);
 
     
     // Intersection lines
@@ -114,7 +118,8 @@ void ofApp::draw(){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if(key == ' ') pause = !pause;
-    if(key == 'a') stopless_algorithm = !stopless_algorithm;
+    if(key == '1') stopless_algorithm = !stopless_algorithm;
+    if(key == '2') pass = !pass;
 }
 
 //--------------------------------------------------------------
@@ -460,7 +465,18 @@ void ofApp::doNotPass()
     // if the car behind is less than 10meters distance
     // then slow down the car behind slightly
     // if the car behind is 9-11m then set speed the same as car in front
-    
+    // Remove cars from list once they enter Danger Zone
+    for(int i = 1; i < northCars.size(); i++)
+    {
+        if(northCars[i]->getYPos() > (northCars[i-1]->getYPos() + 9.0)) // Car is less than 10m away
+        {
+            northCars[i]->setSpeed(northCars[i]->getSpeed() - 0.1);    // Slow down car
+        }
+        else if(northCars[i]->getYPos() > (northCars[i-1]->getYPos() + 11.0)) // Car is more than 10m away
+        {
+            northCars[i]->setSpeed(northCars[i]->getSpeed() + 0.1);    // Speed up car
+        }
+    }
     
     
     
