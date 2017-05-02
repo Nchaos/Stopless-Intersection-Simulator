@@ -12,9 +12,12 @@ class ofApp : public ofBaseApp{
     private:
         vector<Car*> list; // Master List of Cars
         string filename;
+        string filename2;
     
         vector<Car*> westCars;
         vector<Car*> northCars;
+        vector<Car*> eastCars;
+        vector<Car*> southCars; // not used yet 
     
         vector<Car*> horizonal; // Cars in the horizontal danger zone
         vector<Car*> vertical; // Cars in the vertical danger zone
@@ -23,7 +26,7 @@ class ofApp : public ofBaseApp{
         int number_cars = 0;
         bool pause = false;
         bool stopless_algorithm = true;
-        bool pass = true;
+        bool pass = false;
         double begTime;
         double seconds = 10.0;
         ofImage street;
@@ -46,18 +49,19 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-        ofApp(string filename);
+        ofApp(string filename, string filename2);
     
         void readDataFile();
         void printData(vector<Car*>);
         void printTimeData(vector<Car*>);
         void alignCars();
         void checkForSouthEastCollisions();
+        void checkForSouthWestCollisions();
         void collision_algorithm();
         void sortFIFOTime(vector<Car*>&); // V2I
         void sortFIFODistance(vector<Car*>&); // V2I
         void doNotPass();
-        void sortDistance(vector<Car*>&, bool); // V2V
+        void sortDistance(vector<Car*>&, int); // V2V
         
         void start();
         unsigned long elapsedTime();

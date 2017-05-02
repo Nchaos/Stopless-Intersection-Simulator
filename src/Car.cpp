@@ -151,7 +151,7 @@ void Car::setCarDistance(float distance)
     carDistance = distance;
 }
 
-void Car::alignCoordinates()
+void Car::alignCoordinatesNW()
 {
 	if(dir) // north/south 
 	{
@@ -161,6 +161,18 @@ void Car::alignCoordinates()
 	{
 		y_pos = 5.0;
 	}
+}
+
+void Car::alignCoordinatesSE()
+{
+    if(dir) // north/south
+    {
+        x_pos = 5.0;
+    }
+    else // east/west
+    {
+        y_pos = -5.0;
+    }
 }
 
 void Car::print()
@@ -179,5 +191,6 @@ void Car::printTime()
     cout << "End Time: \t" << carEnd << endl;
     cout << "Speed: \t" << speed << endl;
     cout << "Collision Time: \t" << carCollisionTime << endl;
+    cout << "Distance: \t" << carDistance << endl;
 }
 

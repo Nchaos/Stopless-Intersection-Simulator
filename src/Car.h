@@ -41,7 +41,8 @@ public:
 
 	void print();
     void printTime();
-	void alignCoordinates();
+	void alignCoordinatesNW();
+    void alignCoordinatesSE();
     
     
 
